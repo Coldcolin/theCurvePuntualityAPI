@@ -63,7 +63,7 @@ const signUp = async (req, res) => {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
-            }, process.env.SECRET, { expiresIn: "300s" });
+            }, process.env.secret_key, { expiresIn: "300s" });
 
             user.token = token;
             const subject = 'Email Verification'

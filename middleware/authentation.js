@@ -16,8 +16,8 @@ const authenticate = async (req, res, next) => {
                 message: "Token not found",
             });
         }
-        const decodeToken = jwt.verify(token, process.env.SECRET)
-        const user = await userModel.findById(decodeToken.userId);
+        const decodeToken = jwt.verify(token, process.env.secret_key)
+        const user = await userModel.findById(decodeToken.id);
         if (!user) {
             return res.status(404).json({
                 message: "Not authorized: User not found",
