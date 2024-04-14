@@ -19,7 +19,7 @@ const checkIn = async (req, res) => {
 
         //Checks if that day is Monday, Wednesday, or Friday (Days for classes)
         if (today.getDay() === 1 || today.getDay() === 3 || today.getDay() === 5) {
-            const userId = req.user.userId;
+            const userId = req.user.id;
             const user = await userModel.findById(userId);
             if (!user) {
                 return res.status(404).json({ message: "User not found" });

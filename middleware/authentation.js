@@ -5,25 +5,38 @@ require('dotenv').config();
 const authenticate = async (req, res, next) => {
     try {
         const hasAuthorization = req.headers.authorization;
+        // console.log("Auth Present")
         if (!hasAuthorization) {
             return res.status(400).json({
                 message: 'Invalid authorization',
             })
         }
         const token = hasAuthorization.split(" ")[1];
+        // console.log("token found")
         if (!token) {
             return res.status(404).json({
                 message: "Token not found",
             });
         }
+        // console.log("check")
         const decodeToken = jwt.verify(token, process.env.secret_key)
+        // try {
+        //     const decodedToken = jwt.verify(token, process.env.secret_key);
+        //     // Token verification successful
+        //   } catch (error) {
+        //     // Handle verification error
+        //     console.error('Token verification failed:', error);
+        //   }
+        
         const user = await userModel.findById(decodeToken.id);
         if (!user) {
+            // console.log("hello 3")
             return res.status(404).json({
                 message: "Not authorized: User not found",
             });
         }
 
+        // console.log("hello 4")
         req.user = decodeToken;
 
         next();
