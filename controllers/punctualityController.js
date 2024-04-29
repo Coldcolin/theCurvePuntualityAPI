@@ -70,7 +70,7 @@ const checkIn = async (req, res) => {
 
             // Read the image with Jimp and add watermark
             const jimpImage = await Jimp.read(image.tempFilePath);
-            const font = await Jimp.loadFont(Jimp.FONT_SANS_32_RED);
+            const font = await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE);
             const date = today.toISOString().split('T')[0];
             const time = today.toLocaleTimeString('en-US', { hour12: true });
             jimpImage.print(font, 10, 10, `${location}, \n${date},  ${time}`);
