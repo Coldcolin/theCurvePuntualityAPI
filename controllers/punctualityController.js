@@ -72,7 +72,10 @@ const checkIn = async (req, res) => {
             const jimpImage = await Jimp.read(image.tempFilePath);
             const font = await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE);
             const date = today.toISOString().split('T')[0];
-            const time = today.toLocaleTimeString('en-US', { hour12: true });
+
+            const newDate = new Date(today.getTime()); // Create a new Date object
+            newDate.setHours(newDate.getHours() + 1);
+            const time = newDate.toLocaleTimeString('en-US', { hour12: true });
             jimpImage.print(font, 10, 10, `${location}, \n${date},  ${time}`);
 
             // Convert Jimp image to buffer
@@ -97,7 +100,7 @@ const checkIn = async (req, res) => {
 
                     let score;
 
-                    let newTime = today.toLocaleTimeString('en-US', { hour12: false });
+                    let newTime = newDate.toLocaleTimeString('en-US', { hour12: false });
 
                     if (newTime > "10:00:00") {
                         score = 0;
@@ -186,11 +189,12 @@ const assessmentData = async (req, res) => {
         // Fetch attendance data for the current week
         const attendanceData = await dataModel.find({
             userId: userId,
-            date: {
-                $gte: startOfWeek.toISOString().split('T')[0],
-                $lt: endOfWeek.toISOString().split('T')[0]
-            }
-        });
+            // date: {
+            //     $gte: startOfWeek.toISOString().split('T')[0],
+            //     $lt: endOfWeek.toISOString().split('T')[0]
+            // }
+        }
+    );
 
         // Function to delete image by public_id
         const deleteImage = async (public_id) => {

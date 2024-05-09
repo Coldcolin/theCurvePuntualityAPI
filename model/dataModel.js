@@ -29,4 +29,21 @@ userId: [{
 
 const dataModel = mongoose.model('Data', dataSchema);
 
+dataModel.pre('save', function(next) {
+    const self = this;
+    User.findOne({
+      userId: self.userId,
+      date: {
+        $gte: new Date(new Date().setHours(0, 0, 0, 0)),
+        $lt: new Date(new Date().setHours(23, 59, 59, 999))
+      }
+    }, function(err, existingUser) {
+      if (existingUser) {
+        return next(new Error('User already created a document today'));
+      } else {
+        next();
+      }
+    });
+  });
+
 module.exports = dataModel;
