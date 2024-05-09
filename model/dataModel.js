@@ -31,7 +31,7 @@ const dataModel = mongoose.model('Data', dataSchema);
 
 dataModel.pre('save', function(next) {
     const self = this;
-    User.findOne({
+    dataModel.findOne({
       userId: self.userId,
       date: {
         $gte: new Date(new Date().setHours(0, 0, 0, 0)),
