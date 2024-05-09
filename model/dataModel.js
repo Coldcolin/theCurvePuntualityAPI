@@ -39,7 +39,7 @@ dataModel.pre('save', function(next) {
       }
     }, function(err, existingUser) {
       if (existingUser) {
-        return next(new Error('User already created a document today'));
+        return next(new Error('You can\'t sign in more than once today'));
       } else {
         next();
       }
