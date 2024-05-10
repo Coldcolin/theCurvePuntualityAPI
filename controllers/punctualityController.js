@@ -84,7 +84,7 @@ const checkIn = async (req, res) => {
             //Check if the user has already uploaded/checkIn that day
             const checkInStatus = await dataModel.find({ userId: userId });
             // console.log(checkInStatus)
-            if (checkInStatus && checkInStatus[0].date === date) {
+            if (checkInStatus.length > 0 && checkInStatus[0].date === date) {
                 return res.status(400).json({
                     message: "Sorry you can only checkIn once per day!"
                 })
@@ -716,7 +716,7 @@ const runCheck =async(req, res)=>{
         const today = new Date();
         const date = today.toISOString().split('T')[0];
         const checkInStatus = await dataModel.find({ userId: userId });
-            if (checkInStatus && checkInStatus[0].date === date) {
+            if (checkInStatus.length > 0 && checkInStatus[0].date === date) {
                 return res.status(400).json({
                     message: "Sorry you can only checkIn once per day!"
                 })
