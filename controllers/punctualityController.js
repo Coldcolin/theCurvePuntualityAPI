@@ -82,12 +82,12 @@ const checkIn = async (req, res) => {
             const modifiedImageBuffer = await jimpImage.getBufferAsync(Jimp.MIME_JPEG); // or use the appropriate MIME type for your image format
 
             //Check if the user has already uploaded/checkIn that day
-            // const checkInStatus = await dataModel.find({ date: newDate });
-            // if (checkInStatus && checkInStatus.userId === userId) {
-            //     return res.status(400).json({
-            //         message: "Sorry you can only checkIn once per day!"
-            //     })
-            // }
+            const checkInStatus = await dataModel.find({ userId: userId });
+            if (checkInStatus && checkInStatus.date === date) {
+                return res.status(400).json({
+                    message: "Sorry you can only checkIn once per day!"
+                })
+            }
 
             // Upload modified image to Cloudinary
             const cloudinaryUpload = await cloudinary.uploader.upload_stream({ folder: "AttendanceData-Image" },
