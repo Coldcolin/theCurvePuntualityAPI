@@ -83,7 +83,8 @@ const checkIn = async (req, res) => {
 
             //Check if the user has already uploaded/checkIn that day
             const checkInStatus = await dataModel.find({ userId: userId });
-            if (checkInStatus && checkInStatus.date === date) {
+            // console.log(checkInStatus)
+            if (checkInStatus && checkInStatus[0].date === date) {
                 return res.status(400).json({
                     message: "Sorry you can only checkIn once per day!"
                 })
@@ -709,6 +710,25 @@ const deleteAssessment = async (req, res) => {
     }
 }
 
+const runCheck =async(req, res)=>{
+    try{
+        const userId = req.params.id;
+        const today = new Date();
+        const date = today.toISOString().split('T')[0];
+        const checkInStatus = await dataModel.find({ userId: userId });
+            if (checkInStatus && checkInStatus[0].date === date) {
+                return res.status(400).json({
+                    message: "Sorry you can only checkIn once per day!"
+                })
+            }
+            res.status(200).json({data: checkInStatus})
+    }catch(error){
+        return res.status(500).json({
+            message: 'Internal Server Error: ' + error.message,
+        });
+    }
+}
+
 
 
 
@@ -726,6 +746,6 @@ module.exports = {
     deleteCheckIn,
     deleteWeekCheckIn,
     deleteAssessment,
-
+    runCheck
 }
 

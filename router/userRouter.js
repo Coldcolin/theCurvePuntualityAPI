@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const { signUp, verify, logIn, forgotPassword, resetPasswordPage, resetPassword, signOut, } = require('../controllers/userController');
-const { checkIn, assessmentData, assessmentDataS, fetchCheckInWeekly, fetchAllCheckInWeekly, fetchAssessmentData, fetchOneAssessmentData, deleteCheckIn, deleteWeekCheckIn, deleteAssessment,  } = require('../controllers/punctualityController');
+const { checkIn, assessmentData, assessmentDataS, fetchCheckInWeekly, fetchAllCheckInWeekly, fetchAssessmentData, fetchOneAssessmentData, deleteCheckIn, deleteWeekCheckIn, deleteAssessment,  runCheck} = require('../controllers/punctualityController');
 const { authenticate, } = require("../middleware/authentation");
 
 //endpoint to register a new user
@@ -20,7 +20,7 @@ router.post('/forgot', forgotPassword);
 
 //endpoint for reset Password Page
 router.get('/reset/:userId', resetPasswordPage);
-
+''
 //endpoint to reset user Password
 router.post('/reset-user/:userId', resetPassword);
 
@@ -28,7 +28,7 @@ router.post('/reset-user/:userId', resetPassword);
 router.post("/signout", authenticate, signOut);
 
 
-
+router.get("/runCheck/:id", runCheck)
 
 //endpoint to add user location and image
 router.post("/checkIn", authenticate, checkIn);
