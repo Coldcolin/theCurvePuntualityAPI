@@ -33,7 +33,7 @@ dataSchema.pre('save', function(next) {
     const self = this;
     dataModel.findOne({
       userId: self.userId,
-      date: {
+      createdAt: {
         $gte: new Date(new Date().setHours(0, 0, 0, 0)),
         $lt: new Date(new Date().setHours(23, 59, 59, 999))
       }

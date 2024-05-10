@@ -82,7 +82,7 @@ const checkIn = async (req, res) => {
             const modifiedImageBuffer = await jimpImage.getBufferAsync(Jimp.MIME_JPEG); // or use the appropriate MIME type for your image format
 
             //Check if the user has already uploaded/checkIn that day
-            // const checkInStatus = await dataModel.findOne({ date: date });
+            // const checkInStatus = await dataModel.find({ date: newDate });
             // if (checkInStatus && checkInStatus.userId === userId) {
             //     return res.status(400).json({
             //         message: "Sorry you can only checkIn once per day!"
