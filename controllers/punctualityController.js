@@ -82,9 +82,15 @@ const checkIn = async (req, res) => {
             const modifiedImageBuffer = await jimpImage.getBufferAsync(Jimp.MIME_JPEG); // or use the appropriate MIME type for your image format
 
             //Check if the user has already uploaded/checkIn that day
+            // const checkInStatus = await dataModel.find({ userId: userId });
+            // if (checkInStatus.length > 0 && checkInStatus[0].date === date) {
+            //     return res.status(400).json({
+            //         message: "Sorry you can only checkIn once per day!"
+            //     })
+            // }
+
             const checkInStatus = await dataModel.find({ userId: userId });
-            // console.log(checkInStatus)
-            if (checkInStatus.length > 0 && checkInStatus[0].date === date) {
+            if (checkInStatus.length > 0 && checkInStatus.findIndex((e)=> e.date === date) !== -1) {
                 return res.status(400).json({
                     message: "Sorry you can only checkIn once per day!"
                 })
@@ -145,6 +151,10 @@ const checkIn = async (req, res) => {
         return res.status(500).json({
             message: 'Internal Server Error: ' + error.message,
         });
+    } finally {
+        if (req.files && req.files.image) {
+            fs.unlinkSync(req.files.image.tempFilePath);
+        }
     }
 };
 
