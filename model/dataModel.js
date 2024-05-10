@@ -29,7 +29,7 @@ userId: [{
 
 const dataModel = mongoose.model('Data', dataSchema);
 
-dataModel.pre('save', function(next) {
+dataSchema.pre('save', function(next) {
     const self = this;
     dataModel.findOne({
       userId: self.userId,
