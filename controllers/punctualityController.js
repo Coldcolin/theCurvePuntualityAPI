@@ -27,6 +27,7 @@ const checkIn = async (req, res) => {
 
             const { latitude, longitude } = req.body;
 
+
             const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
 
             const response = await fetch(apiUrl);
@@ -78,6 +79,13 @@ const checkIn = async (req, res) => {
             const time = newDate.toLocaleTimeString('en-US', { hour12: true });
             jimpImage.print(font, 10, 10, `${location}, \n${date},  ${time}`);
 
+            const checkInStatus = await dataModel.find({ userId: userId });
+            if (checkInStatus.length > 0 && checkInStatus.findIndex((e)=> e.date === date) !== -1) {
+                return res.status(400).json({
+                    message: "Sorry you can only checkIn once per day!"
+                })
+            }
+
             // Convert Jimp image to buffer
             const modifiedImageBuffer = await jimpImage.getBufferAsync(Jimp.MIME_JPEG); // or use the appropriate MIME type for your image format
 
@@ -89,12 +97,6 @@ const checkIn = async (req, res) => {
             //     })
             // }
 
-            const checkInStatus = await dataModel.find({ userId: userId });
-            if (checkInStatus.length > 0 && checkInStatus.findIndex((e)=> e.date === date) !== -1) {
-                return res.status(400).json({
-                    message: "Sorry you can only checkIn once per day!"
-                })
-            }
 
             // Upload modified image to Cloudinary
             const cloudinaryUpload = await cloudinary.uploader.upload_stream({ folder: "AttendanceData-Image" },
