@@ -55,7 +55,7 @@ router.get("/fetchOneAssessment/:userId", authenticate, fetchOneAssessmentData);
 router.delete("/deleteCheckIn/:checkInID", authenticate, deleteCheckIn);
 
 //endpoint to delete a student checkIn data for the full week
-router.delete("/deleteCheckInfullWeek/:userId", authenticate, deleteWeekCheckIn);
+router.delete("/deleteCheckInfullWeek/:userId", deleteWeekCheckIn);
 
 //endpoint to delete assessment for a particular student
 router.delete("/deleteAssessment/:assessmentId", authenticate, deleteAssessment);
