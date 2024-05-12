@@ -409,10 +409,10 @@ const fetchCheckInWeekly = async (req, res) => {
         // Fetch attendance data for the current week
         const attendanceData = await dataModel.find({
             userId: userId,
-            date: {
-                $gte: startOfWeek.toISOString().split('T')[0],
-                $lte: endOfWeek.toISOString().split('T')[0]
-            }
+            // date: {
+            //     $gte: startOfWeek.toISOString().split('T')[0],
+            //     $lte: endOfWeek.toISOString().split('T')[0]
+            // }
         });
 
         if (!attendanceData) {
