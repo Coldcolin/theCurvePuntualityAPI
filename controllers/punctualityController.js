@@ -153,11 +153,12 @@ const checkIn = async (req, res) => {
         return res.status(500).json({
             message: 'Internal Server Error: ' + error.message,
         });
-    } finally {
-        if (req.files && req.files.image) {
-            fs.unlinkSync(req.files.image.tempFilePath);
-        }
-    }
+    } 
+    // finally {
+    //     if (req.files && req.files.image) {
+    //         fs.unlinkSync(req.files.image.tempFilePath);
+    //     }
+    // }
 };
 
 
