@@ -655,11 +655,16 @@ const deleteWeekCheckIn = async (req, res) => {
         // Fetch attendance data for the current week
         const checkInData = await dataModel.find({
             userId: userId,
-            date: {
-                $gte: startOfWeek.toISOString().split('T')[0],
-                $lte: endOfWeek.toISOString().split('T')[0]
-            }
+            // date: {
+            //     $gte: startOfWeek.toISOString().split('T')[0],
+            //     $lte: endOfWeek.toISOString().split('T')[0]
+            // }
         });
+
+        const groupedData = _.groupBy(checkInData, 'userId');
+        const loggedInfo = groupedData[userId].map((e)=>  1 == 1? e["image"]["public_id"]: null)
+
+
 
         if (!checkInData || checkInData.length === 0) {
             return res.status(404).json({
@@ -669,19 +674,22 @@ const deleteWeekCheckIn = async (req, res) => {
 
         const deleteCheckInData = await dataModel.deleteMany({
             userId: userId,
-            date: {
-                $gte: startOfWeek.toISOString().split('T')[0],
-                $lte: endOfWeek.toISOString().split('T')[0]
-            }
+            // date: {
+            //     $gte: startOfWeek.toISOString().split('T')[0],
+            //     $lte: endOfWeek.toISOString().split('T')[0]
+            // }
         });
         if (!deleteCheckInData) {
             return res.status(400).json({
                 message: "Unable to delete student checkIn Data"
             });
         }
+        cloudinary.uploader.delete_resources(loggedInfo)
+        .then(result=>console.log(result))
 
         return res.status(200).json({
             message: "Student checkIn data deleted successfully",
+            data: loggedInfo
         })
 
     } catch (error) {
