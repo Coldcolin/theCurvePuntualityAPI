@@ -684,7 +684,7 @@ const deleteWeekCheckIn = async (req, res) => {
                 message: "Unable to delete student checkIn Data"
             });
         }
-        cloudinary.uploader.delete_resources(loggedInfo)
+        cloudinary.api.delete_resources(loggedInfo)
         .then(result=>console.log(result))
 
         return res.status(200).json({
