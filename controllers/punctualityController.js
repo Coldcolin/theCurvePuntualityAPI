@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
+const paymentModel = require("../model/ConfirmPayment")
 require('dotenv').config();
 
 
@@ -749,6 +750,41 @@ const runCheck =async(req, res)=>{
         });
     }
 }
+const confirmPayment =async(req, res)=>{
+    try{
+        if(!req.body){
+            res.status(400).json({message: "Please provide required data"})
+        }else{
+            const paymentData = paymentModel.create(
+                {
+                    event:  req.body.event, //the notification is only sent for successful charge,
+                    data: {
+                        reference: req.body.data.reference,
+                        currency: req.body.data.currency,
+                        amount: req.body.data.amount, //amount paid by the customer
+                        amount_expected: req.body.data.amount_expected, //amount that the customer is expected to pay
+                        fee: req.body.data.fee,
+                        status: req.body.data.status,
+                        payment_reference: req.body.data.payment_reference, //unique reference sent by the merchant
+                        transaction_status: req.body.data.transaction_status, //the status of the charge base on the amount paid by the customer. This can either be `success`, `underpaid` or `overpaid`,
+                    metadata: {
+                        internalRef: req.body.data.metadata.internalRef,
+                        age:req.body.data.metadata.age,
+                        fixed: req.body.data.metadata.fixed,
+                    }
+                    }
+                 }
+            )
+
+            res.status(200).json({message: `payment status: ${paymentData.data.status}`})
+        }
+        
+    }catch(error){
+        return res.status(500).json({
+            message: 'Internal Server Error: ' + error.message,
+        });
+    }
+}
 
 
 
@@ -767,6 +803,7 @@ module.exports = {
     deleteCheckIn,
     deleteWeekCheckIn,
     deleteAssessment,
-    runCheck
+    runCheck,
+    confirmPayment
 }
 

@@ -3,11 +3,14 @@ const express = require('express');
 const router = express.Router();
 
 const { signUp, verify, logIn, forgotPassword, resetPasswordPage, resetPassword, signOut, } = require('../controllers/userController');
-const { checkIn, assessmentData, assessmentDataS, fetchCheckInWeekly, fetchAllCheckInWeekly, fetchAssessmentData, fetchOneAssessmentData, deleteCheckIn, deleteWeekCheckIn, deleteAssessment,  runCheck} = require('../controllers/punctualityController');
+const { checkIn, assessmentData, assessmentDataS, fetchCheckInWeekly, fetchAllCheckInWeekly, fetchAssessmentData, fetchOneAssessmentData, deleteCheckIn, deleteWeekCheckIn, deleteAssessment,  runCheck, confirmPayment} = require('../controllers/punctualityController');
 const { authenticate, } = require("../middleware/authentation");
 
 //endpoint to register a new user
 router.post('/signup', signUp);
+
+//confirm payment
+router.post('/confirm', confirmPayment);
 
 //endpoint to verify a registered user
 router.get('/verify/:id/:token', verify);
