@@ -763,7 +763,7 @@ const confirmPayment = async(req, res)=>{
                  }
             )
 
-            res.status(200).json({message: `payment status: ${paymentData.data.status}`})
+            res.status(200).json({message: `payment status: ${paymentData.status}`})
         }
         
     }catch(error){
