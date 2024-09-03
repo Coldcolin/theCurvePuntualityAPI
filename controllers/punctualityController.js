@@ -750,12 +750,12 @@ const runCheck =async(req, res)=>{
         });
     }
 }
-const confirmPayment =async(req, res)=>{
+const confirmPayment = async(req, res)=>{
     try{
         if(!req.body){
             res.status(400).json({message: "Please provide required data"})
         }else{
-            const paymentData = paymentModel.create(
+            const paymentData = await paymentModel.create(
                 {
                     event:  req.body.event, //the notification is only sent for successful charge,
                     data: {
