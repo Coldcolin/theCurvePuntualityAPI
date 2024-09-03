@@ -757,22 +757,9 @@ const confirmPayment = async(req, res)=>{
         }else{
             const paymentData = await paymentModel.create(
                 {
-                    event:  req.body.event, //the notification is only sent for successful charge,
-                    data: {
-                        reference: req.body.data.reference,
-                        currency: req.body.data.currency,
-                        amount: req.body.data.amount, //amount paid by the customer
-                        amount_expected: req.body.data.amount_expected, //amount that the customer is expected to pay
-                        fee: req.body.data.fee,
-                        status: req.body.data.status,
-                        payment_reference: req.body.data.payment_reference, //unique reference sent by the merchant
-                        transaction_status: req.body.data.transaction_status, //the status of the charge base on the amount paid by the customer. This can either be `success`, `underpaid` or `overpaid`,
-                    metadata: {
-                        internalRef: req.body.data.metadata.internalRef,
-                        age:req.body.data.metadata.age,
-                        fixed: req.body.data.metadata.fixed,
-                    }
-                    }
+                    amount:  req.body.amount, //the notification is only sent for successful charge,
+                    reference: req.body.reference,
+                    status: req.body.status
                  }
             )
 
