@@ -2,7 +2,7 @@ require('./dbConfig/dbConfig.js');
 const express = require('express');
 const swaggerJsdoc = require("swagger-jsdoc")
 const swaggerDoc = require("swagger-ui-express")
-const swaggerDocumentation = require("./docs/documentation")
+const swaggerDocumentation = require("./docs/documentation.js")
 const cors = require('cors');
 require('dotenv').config();
 const bodyParser = require('body-parser');
