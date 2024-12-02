@@ -11,7 +11,7 @@ const router = require('./router/userRouter.js');
 
 const app = express();
 
-const port = process.env.PORT;
+const port = process.env.PORT || 4050;
 
 app.use(cors('*'));
 
